@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Активация лицензии</title>
+    <style>
+    
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            font-family: 'Courier New', Courier, monospace;
+            color: #e0f2f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .license-container {
+            background: #111;
+            border: 3px solid #007bff;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .5);
+            width: 100%;
+            max-width: 450px;
+        }
+        h1 {
+            color: #00bfff;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: .5rem;
+            font-size: 1.1rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: .8rem;
+            border: 2px solid #444;
+            border-radius: 6px;
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #00bfff;
+            box-shadow: 0 0 5px #00bfff;
+        }
+        button {
+            background: #00bfff;
+            color: #0a0a0a !important;
+            border: none;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: .3s;
+        }
+        button[disabled] {
+            background: #999;
+            cursor: not-allowed;
+        }
+        button[disabled]:hover {
+            background: #999;
+        }
+        button:hover {
+            background: #009acd;
+        }
+        .message {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .success {
+             color: #28a745; /* Зеленый */
+         }
+         .error {
+             color: #dc3545; /* Красный */
+         }
+    </style>
+</head>
+<body>
+    <div class="license-container">
+        <h1>🔐 Активация лицензии</h1>
+        <p>Введите лицензионный ключ для доступа к игре</p>
+
+        <div class="input-group">
+             <label for="license-key-input">Лицензионный ключ:</label>
+             <input type="text" id="license-key-input" placeholder="Введите ключ здесь" autofocus>
+         </div>
+
+         <button id="activate-btn">Активировать и запустить игру</button>
+
+         <div class="message" id="message-box"></div>
+     </div>
+
+    <script>
+    // Массив валидных ключей (база данных)
+    const validLicenses = [
+         "ANVZS-IYSJD-YIAT8-TPJ6I",
+"F9QAX-EYDNK-3785W-HEOEG",
+"QRP3-T2XMR-5P3OS-P6RR6",
+"JSFT-R3F2I-2S71M-FKAJW",
+"P3BMT-KEHWX-E34PH-0GT0Q",
+"U2TQ-GGJNF-YVG19-93FJN",
+"XOSWP-7LPL6-GF3PJ-2VUBH",
+"XZ8ER-4DU14-NPKAS-NIA86",
+"FWI3V-87M44-N7II2-AD849",
+"I6321-5U41R-BJX0F-ED2AT",
+"FRA-UY7FP-VI8LH-5390I",
+"LKCN-DUI32-Q4M54-7XA81",
+"ESYA1-ZKF6V-C3RBZ-V16OK",
+"DTV-TUT7Q-V1HLR-UFSWB",
+"AJRLF-WICG2-E09XD-TUFSH",
+"KYL3-IDDLR-IDP6D-CQHT9",
+"AGS8I-M8Z1U-BTYLE-L65F0",
+"FDG9U-542NS-REVI8-HVTAN",
+"SQFI-7YTZX-TA6Y8-50EBE",
+"YOAQW-IOCH9-V7CWK-LZ0RO",
+"VFWPZ-DSG7I-WID5W-I00DC",
+"I0X-PWEMM-AJB15-08T6F",
+"GEZLB-15LZ6-L7GGB-L3OPI",
+"JL31G-5XQP1-XN5HE-FRLRB",
+"GZI-Z3R44-6L5VL-6C11S",
+"OYQCA-9FSRM-UCTDK-T8XUI",
+"VESZP-V4VPV-9F1DW-QSJTI",
+"ETGN5-GK5QO-0PD9W-S9VN3",
+"AVSV7-XPLB0-BK8GK-9K545",
+"M33Z-P7TZ2-KF5AZ-BMIUC",
+"TMJEZ-07ENR-Q6A6L-WVT4K",
+"PGOUC-4Q5NT-4DF6S-1C5U2",
+"U4Q0-DJ59S-9R6LQ-3C53W",
+"NHBK1-62KW6-NM4RS-WQI9N",
+"ZA-LQL73-P34C1-UQF50",
+"PZW0F-RCA4E-PVGL2-L54YY",
+"PYVHG-0R3NF-XA7BK-8DC4O",
+"RAP50-I7UU2-ISELP-75IN5",
+"UTTKL-PP9NV-CRQXP-YKWYK",
+"FNNXS-A8XC2-8GP2Q-BL6N9",
+"L8Q49-5AEI8-RPG7B-JC68J",
+"YU76-WHA7A-6Q8H8-CHTOA",
+"WHQSI-KWJYN-BWIP7-P9DPS",
+"VLMB-GN0T6-PIQVF-TEW9O",
+"GKO04-BIC08-QACBM-5OKN6",
+"XBVT8-J1F2C-NPPMY-OR7MA",
+"EHYA0-ZO9ZG-YH271-J4R5G",
+"UVKUH-ZA01U-YRM0K-7LZGL",
+"ZSA6P-F366E-62A7O-BCCKI",
+"JGJU9-AJDQA-MDFRB-P1PU5",
+     ];
+
+     // Функция обработки активации
+     function activateLicense() {
+         const inputField = document.getElementById('license-key-input');
+         const messageBox = document.getElementById('message-box');
+         const button = document.getElementById('activate-btn');
+         
+         const userInput = inputField.value.trim();
+
+         // Проверка на пустоту
+         if (!userInput) {
+             messageBox.className = 'message error';
+             messageBox.textContent = '❌ Пожалуйста, введите лицензионный ключ.';
+             return; // Останавливаем выполнение функции
+         }
+
+         // Блокируем кнопку, чтобы избежать повторных нажатий во время проверки
+         button.disabled = true;
+         messageBox.textContent = '⏳ Проверка ключа...';
+
+         // Проверка ключа в базе данных
+         if (validLicenses.includes(userInput)) {
+             // --- УСПЕШНАЯ АКТИВАЦИЯ ---
+             localStorage.setItem('license_key', userInput); // Сохраняем ключ
+
+             messageBox.className = 'message success';
+             messageBox.textContent = '✅ Лицензия активирована! Запуск игры...';
+
+             // Перенаправление на страницу игры через 1.5 секунды
+             setTimeout(() => window.location.href = 'game.html', 1500);
+
+         } else {
+             // --- ОШИБКА АКТИВАЦИИ ---
+             messageBox.className = 'message error';
+             messageBox.textContent = '🚫 Неверный лицензионный ключ. Доступ запрещен.';
+
+             // Перенаправление на страницу блокировки через 2.5 секунды
+             setTimeout(() => window.location.href = 'block.html', 2500);
+         }
+
+         // Разблокируем кнопку после завершения логики (в любом случае)
+         button.disabled = false;
+     }
+
+     // Слушатель события клика по кнопке активации
+     document.getElementById('activate-btn').addEventListener('click', activateLicense);
+    </script>
+</body>
+</html>

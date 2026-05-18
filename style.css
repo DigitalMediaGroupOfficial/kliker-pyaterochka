@@ -1,0 +1,302 @@
+/* Подключаем локальный пиксельный шрифт */
+@font-face {
+    font-family: 'Press Start 2P'; /* Имя шрифта */
+    src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* Далее ваш остальной CSS-код */
+body {
+    font-family: 'Press Start 2P', cursive; /* Применяем шрифт */
+    ...
+}
+/* --- 1. ГЛОБАЛЬНЫЕ СБРОСЫ И НАСТРОЙКИ --- */
+
+/* Сброс стандартных отступов и полей для всех элементов */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Устанавливаем базовый размер шрифта (1rem = 10px) */
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #111;
+    color: #fff;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- 2. ОСНОВНОЙ КОНТЕЙНЕР ИГРЫ --- */
+
+.game-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 1.5rem;
+    background-color: #222;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* --- 3. ШАПКА И ТАБЛО МОНЕТ --- */
+
+.game-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #444;
+    margin-bottom: 1.5rem;
+}
+
+/* Цифровое табло монет (ИСПРАВЛЕНО) */
+.coin-counter {
+    display: flex; /* Выравниваем элементы в строку */
+    align-items: center; /* По вертикали по центру */
+    gap: 8px; /* Расстояние между "Монеты", числом и логотипом */
+    
+    font-size: 1.8rem; /* Размер текста "Монеты" */
+    
+    color: #ffd700;
+    text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
+    
+    padding: 8px 12px; /* Внутренние отступы */
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    width: fit-content; /* Табло не шире своего содержимого */
+}
+
+/* Надпись "Монеты:" */
+.digital-label {
+    font-size: 1.4rem; /* ~14px */
+    color: #aaa;
+}
+
+/* Значение монет (ЧИСЛО) */
+.digital-display {
+    font-size: 3.2rem; /* ~32px - совпадает с высотой логотипа */
+    font-weight: bold;
+}
+
+/* Логотип внутри табло (ИСПРАВЛЕНО) */
+.logo-inside-coin {
+    width: 32px; /* Высота совпадает с высотой цифр (32px) */
+    height: auto; /* Сохраняет пропорции изображения */
+    cursor: pointer; /* Показывает, что можно кликнуть */
+}
+
+/* --- 4. МАГАЗИН (ТЕКСТОВЫЙ ВАРИАНТ) --- */
+
+.shop-section {
+    margin-bottom: 2rem;
+}
+
+.shop-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem; /* ~22px */
+    color: #ffd700;
+}
+
+/* Сетка товаров (ИСПРАВЛЕНО) */
+.shop-grid {
+    display: grid;
+    gap: 1.2rem; /* Расстояние между карточками */
+    
+    /* Адаптивность:
+       - На узких экранах (до ~480px): 2 колонки
+       - На средних (~600px): 3 колонки
+       - На широких (~768px): 4 колонки
+     */
+     grid-template-columns:
+         repeat(auto-fit, minmax(140px, 1fr));
+    
+     padding: 0 1rem; /* Отступы по бокам для сетки */
+ }
+
+ /* Карточка товара (ОСНОВНОЙ СТИЛЬ) */
+ .shop-item {
+     background-color: #333;
+     border-radius: 8px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+     
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+     
+     padding-bottom: .8rem; /* Отступ снизу для кнопки */
+     
+     transition:
+         transform .2s ease,
+         background-color .2s ease,
+         box-shadow .2s ease,
+         color .2s ease;
+         
+     cursor: pointer; /* Показывает, что товар кликабелен */
+ }
+
+ /* Стили для купленных товаров */
+ .shop-item.purchased {
+     background-color: rgba(51,51,51,.7);
+     color: #888;
+     cursor: default; /* Обычный курсор */
+ }
+
+ .shop-item.purchased button {
+     background-color: #555 !important;
+ }
+
+ /* Анимация при наведении на доступный товар */
+ .shop-item.hover {
+     transform: scale(1.05);
+ }
+
+ /* Анимация при нажатии на доступный товар (тактильная отдача) */
+ .shop-item.active {
+      transform: scale(.98);
+      box-shadow:
+          inset -4px -4px rgba(255,255,255,.7),
+          inset   4px   4px rgba(   0,   0,   0,.7);
+ }
+
+ /* Название товара */
+ .shop-item h3 {
+   font-size: calc(1.4rem + .2vw); /* Адаптивный размер */
+   margin-bottom:.3rem;
+   color:#ffd700 !important;
+   text-shadow:none !important; /* Убираем тень для чистоты текста */
+}
+
+.shop-item.purchased h3{
+   color:#aaa !important;
+}
+
+/* Цена товара */
+.shop-item p {
+   font-size: calc(1.6rem + .2vw); /* Адаптивный размер */
+   font-weight: bold;
+   margin-bottom:.8rem; /* Отступ до кнопки снизу */
+   color:#28a745 !important; /* Зеленый цвет цены */
+}
+
+.shop-item.purchased p{
+   color:#aaa !important;
+}
+
+/* Сообщение "Куплено всё" (если используется) */
+.shop-message {
+     background-color: #222;
+     border-radius: 8px;
+     padding: .8rem;
+     text-align: center;
+     color: #ffd700;
+ }
+
+/* --- 5. ФУТЕР И КНОПКА СБРОСА --- */
+
+.game-footer {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding-top:.5rem; /* Уменьшен padding-top для компактности с кнопкой сброса*/
+ }
+
+.game-footer button {
+     background-color:#dc3545 !important; /* Красный цвет для кнопки сброса !important чтобы перебить другие стили*/
+     color:#fff !important;
+     border-radius:.8rem !important;
+     
+     padding:.6rem .9rem !important;/* Уменьшен padding для компактности*/
+     
+     font-size:.9rem !important;/* Уменьшен font-size для компактности*/
+     
+     cursor:pointer !important;
+     
+     transition:
+         background-color .2s ease-in-out,
+         transform .2s ease-in-out,
+         box-shadow .2s ease-in-out !important;
+ }
+
+.game-footer button:focus {
+     outline:none !important;/* Убирает стандартное обводку при фокусе для красоты*/
+ }
+
+.game-footer button:focus-visible {
+     box-shadow:
+         inset -4px -4px rgba(255,255,255,.7),
+         inset   4px   4px rgba(   0,   0,   0,.7);
+ }
+
+.game-footer button.hover,
+.game-footer button:focus,
+.game-footer button:focus-visible,
+.game-footer button.active {
+      transform: scale(1.03) !important; /* Немного увеличиваем кнопку при наведении / фокусе*/
+      box-shadow:
+          inset -4px -4px rgba(255,255,255,.7),
+          inset   4px   4px rgba(   0,   0,   0,.7);
+ }
+
+ /* --- 6. АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ --- */
+ @media (max-width:600px){
+      html{font-size:56.25%} /* Базовый шрифт ~9px для мобилок*/
+      body{line-height:.9} /* Более плотный line-height для мобилок*/
+      
+      body>.game-container{padding:.8rem} /* Уменьшен padding контейнера*/
+      
+      body>.game-container>.game-header{padding:.5rem} /* Уменьшен padding шапки*/
+      
+      body>.game-container>.coin-counter{
+           padding:.3rem /* Уменьшен padding табло монет*/
+           gap:.5rem /* Уменьшен gap табло монет*/
+      }
+      body>.game-container>.coin-counter>.digital-label{
+           font-size:.9rem /* Размер метки "Монеты:" на мобилках*/
+      }
+      body>.game-container>.coin-counter>.digital-display{
+           font-size:.9rem /* Размер цифр на мобилках*/
+      }
+      body>.game-container>.coin-counter>img.logo-inside-coin{
+           width:.9rem /* Размер логотипа на мобилках*/
+      }
+      
+      body>.game-container>.shop-grid{
+           gap:.6rem /* Зазор в сетке магазина на мобилках*/
+      }
+      
+      body>.game-container>.shop-item{
+           padding:.4rem/* Внутренние отступы карточки товара на мобилках*/
+      }
+      
+      body>.game-container>.shop-item>h3{
+           font-size:.8rem/* Размер названия товара на мобилках*/
+      }
+      
+      body>.game-container>.shop-item>p{
+           font-size:.75rem/* Размер цены товара на мобилках*/
+      }
+      
+      body>.game-container>.game-footer{
+           padding-top:.3rem/* Уменьшен padding-top футера на мобилках*/
+      }
+      
+      body>.game-container>.game-footer>button{
+           padding:.4rem .6rem!important/* Уменьшен padding кнопки сброса на мобилках*/
+           font-size:.75rem!important/* Уменьшен font-size кнопки сброса на мобилках*/
+       }
+ }

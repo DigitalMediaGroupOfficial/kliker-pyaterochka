@@ -1,0 +1,333 @@
+<!DOCTYPE>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пятёрочка Кликер</title>
+    <link rel="stylesheet" href="style.css">
+    <a href="about.html">О игре</a>
+    <!-- Подключение пиксельного шрифта Press Start 2P -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+    /* Подключаем локальный пиксельный шрифт */
+@font-face {
+    font-family: 'Press Start 2P'; /* Имя шрифта */
+    src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* Далее ваш остальной CSS-код */
+body {
+    font-family: 'Press Start 2P', cursive; /* Применяем шрифт */
+    ...
+}
+        /* === ОБЩИЕ НАЛАДКИ === */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 62.5%; /* Базовый размер шрифта 1rem = 10px */
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive; /* Главный пиксельный шрифт */
+            background-color: #111; /* Темный фон */
+            color: #fff;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* === КОНТЕЙНЕР ИГРА === */
+        .game-container {
+            width: 100%;
+            max-width: 600px; /* Оптимально для мобильных и десктопов */
+            padding: 1.5rem;
+            background-color: #222;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* === ШАПКА ИГРЫ === */
+        .game-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #444;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Логотип внутри табло монет */
+        .logo-inside-coin {
+            position: relative;
+            top: -2px; /* Немного приподнят */
+            width: 32px; /* Высота примерно равна высоте цифр монет (3.2rem) */
+            height: auto; /* Сохраняет пропорции */
+            cursor: pointer; /* Показывает, что можно кликнуть */
+            opacity: 0.8;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .logo-inside-coin:hover {
+            opacity: 1; /* Эффект при наведении */
+        }
+
+        /* Цифровое табло монет (облегчённая версия) */
+        .coin-counter {
+            display: flex; /* Используем flex для выравнивания логотипа и текста */
+            align-items: center; /* Вертикальное выравнивание по центру */
+            gap: 5px; /* Расстояние между элементами (метка, число, логотип) */
+            
+            font-size: 1.8rem; /* Размер шрифта метки "Монеты:" */
+            
+            color: #ffd700;
+            text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
+            
+            padding: 0.5rem 1rem; /* Внутренние отступы (8px и 16px) */
+            border-radius: 6px; /* Закругление углов табло */
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный фон */
+            
+            width: fit-content; /* Табло занимает ровно столько места, сколько нужно его содержимому (текст + логотип) */
+        }
+
+        /* Надпись "Монеты:" */
+        .digital-label {
+            font-size: 1.4rem; /* Примерно 14px - уменьшен для компактности */
+            color: #aaa;
+            text-shadow: 0 0 3px #aaa;
+        }
+
+        /* Значение монет - увеличен для лучшей читаемости и соответствия размеру логотипа */
+        .digital-display {
+            font-size: 3.2rem; /* Примерно 32px - высота цифр совпадает с высотой логотипа (32px) */
+            font-weight: bold;
+            text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
+        }
+
+        /* === МАГАЗИН === */
+        .shop-section {
+            margin-bottom: 2rem;
+        }
+
+        .shop-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem; /* Примерно 22px */
+            color: #ffd700;
+        }
+
+        /* Сетка товаров (теперь только с текстом) */
+        .shop-grid {
+             display: grid;
+             gap: 1.2rem;
+             
+             grid-template-columns:
+                 repeat(auto-fit, minmax(140px, 1fr));
+            
+             padding: 1rem;
+         }
+ 
+         /* Карточка товара (БЕЗ ИЗОБРАЖЕНИЙ) */
+         .shop-item {
+              background-color: #333;
+              border-radius: 8px;
+              box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+              
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              
+              padding-bottom: .8rem; 
+              
+              transition:
+                  transform .2s ease,
+                  background-color .2s ease,
+                  box-shadow .2s ease,
+                  color .2s ease;
+                  
+              cursor: pointer; 
+          }
+ 
+          .shop-item.purchased { 
+              background-color: rgba(51,51,51,.7); 
+              color: #888; 
+              cursor: default; 
+          }
+ 
+          .shop-item.purchased button {
+              background-color: #555 !important; 
+          }
+ 
+          .shop-item.hover { 
+              transform: scale(1.05);
+          }
+ 
+          .shop-item.hover button { 
+              background-color:#c82333 !important; 
+          }
+ 
+          .shop-item.active {/* Класс при нажатии на доступный товар (для тактильной отдачи) */
+               transform: scale(.98);
+               box-shadow:
+                   inset -4px -4px rgba(255,255,255,.7),
+                   inset   4px   4px rgba(   0,   0,     .7);
+          }
+
+       .shop-item h3 {
+           font-size: calc(1.4rem + .2vw);
+           margin-bottom:.3rem;
+           color:#ffd700 !important;
+       }
+       
+       .shop-item p {
+           font-size: calc(1.6rem + .2vw);
+           font-weight: bold;
+           margin-bottom:.8rem;
+           color:#28a745 !important;
+       }
+
+
+      /* === ФУТЕР И КНОПКА СБРОСА === */
+      .game-footer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-top:.5rem;
+      }
+
+      .game-footer button {
+          background-color:#dc3545 !important;
+          color:#fff !important;
+          border-radius:.8rem !important;
+          padding:.6rem .9rem !important;
+          font-size:.9rem !important;
+          cursor:pointer !important;
+      }
+      
+      @media(max-width:600px){
+         body>.game-container>.game-footer{
+               padding-top:.3rem
+         }
+         body>.game-container>.game-footer>button{
+               padding:.4rem .6rem!important
+               font-size:.75rem!important
+         }
+      }
+
+
+      @media (max-width:600px){
+         html{font-size:56.25%}
+         body{line-height:.9}
+         
+         body>.game-container{padding:.8rem}
+         
+         body>.game-container>.game-header{padding:.5rem}
+         
+         body>.game-container>.coin-counter{
+              padding:.3rem
+              gap:.5rem
+         }
+         
+         body>.game-container>.coin-counter>.digital-label{
+              font-size:.9rem
+         }
+         
+         body>.game-container>.coin-counter>.digital-display{
+              font-size:.9rem
+         }
+         
+         body>.game-container>.coin-counter>img.logo-inside-coin{
+              width:.9rem
+         }
+         
+         body>.game-container>.shop-grid{
+              gap:.6rem
+         }
+         
+         body>.game-container>.shop-item{
+              padding:.4rem
+         }
+         
+         body>.game-container>.shop-item>h3{
+              font-size:.8rem
+         }
+         
+         body>.game-container>.shop-item>p{
+              font-size:.75rem
+         }
+      }
+    </style>
+</head>
+<body>
+    <!-- Основная оболочка игры -->
+   <div class="game-container">
+   
+   <!-- Шапка игры -->
+   <header class="game-header">
+      
+      <!-- Цифровое табло монет -->
+      <!-- Логотип теперь является частью этого блока -->
+      <div class="coin-counter" id="clickable-coin-area">
+         <div class="digital-label">Монеты:</div>
+         <div class="digital-display" id="coins">—</div>
+         
+         <!-- Логотип внутри табло -->
+         <!-- Клик по всему табло или по логотипу будет давать монеты -->
+         <img src="./images/logo.png" alt="Логотип игры" class="logo-inside-coin" id="click-logo">
+         
+      </div>
+   </header>
+   
+   <!-- Магазин -->
+   <section class="shop-section">
+      <h2>МАГАЗИН</h2>
+      
+      <!-- Контейнер для товаров -->
+      <div class="shop-grid" id="shop-items">
+         
+      </div>
+   </section>
+   
+   <!-- Футер и кнопка сброса -->
+   <footer class="game-footer">
+      <button class="reset-game">СБРОСИТЬ ПРОГРЕСС</button>
+   </footer>
+   
+ </div>
+ 
+ <!-- Звуковые эффекты -->
+ <audio id="click-sound" src="./sounds/click.mp3"></audio>
+ <audio id="buy-sound" src="./sounds/buy.mp3"></audio>
+
+ <!-- Фоновая музыка -->
+ <audio id="background-music" src="./sounds/background.mp3" loop></audio>
+ 
+ <!-- Скрипт игры -->
+ <script src="script.js"></script>
+ 
+ <!-- Подвал сайта -->
+<center><p>Сайт Пятёрочки:</p></center><br/>
+<center><strong><a href="https://5ka.ru/" target="_blank">5ka.ru</a></strong></center><br/>
+
+<center><p>Связь с разработчиком:</p></center><br/>
+<!-- ИСПРАВЛЕННАЯ ССЫЛКА -->
+<center><strong><a href="mailto:support.dmg.holdings@gmail.com/"target="_blank"">support.dmg.holdings@gmail.com</a></strong></center><br/>
+
+<center><p>©DMG|Holdings. Все права защищены. 2026</p></center>
+ 
+</body>
+</html>

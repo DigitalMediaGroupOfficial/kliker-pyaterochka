@@ -1,0 +1,148 @@
+<!DOCTYPE>
+<html lang="ru">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка</title>
+    <style>
+        /* === БАЗОВЫЕ НАСТРОЙКИ === */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Скрываем полосы прокрутки */
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive, sans-serif; /* Ретро-пиксельный шрифт */
+            background-color: #111; /* Темный фон */
+            color: #ffd700; /* Ярко-жёлтый текст */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* === ЛОГОТИП === */
+        .logo-container {
+            margin-bottom: 2rem;
+        }
+
+        .logo-image {
+            width: 200px; /* Размер логотипа */
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* === ПРОГРЕСС-БАР === */
+        .progress-bar {
+            width: 100%;
+            max-width: 400px; /* Ограничиваем ширину */
+            height: 20px;
+            background-color: #222; /* Темный фон */
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar .bar {
+            height: 100%;
+            background-color: #ffd700; /* Неоновая заливка */
+            border-radius: 10px;
+            transition: width 0.2s ease;
+        }
+
+        /* === ИНДИКАТОР ЗАГРУЗКИ === */
+        .loading-text {
+            font-size: 1.6rem; /* Примерно 16px */
+            text-shadow: 0 0 3px #ffd700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Логотип игры -->
+    <div class="logo-container">
+        <img src="./images/logo1.png" alt="Логотип Пятёрочка Кликер" class="logo-image">
+    </div>
+
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+        <div class="bar" style="width: 0%;"></div>
+    </div>
+
+    <!-- Индикатор загрузки -->
+    <div class="loading-text">Загрузка: 0%</div>
+
+    <!-- Скрипт для отслеживания загрузки ресурсов -->
+    <script>
+        // Ресурсы, которые нужно загрузить
+        const assetsToLoad = [
+          "./styles/style.css",
+          "./images/Logo1.png",
+          "./images/logo.png",
+          "./sounds/click.mp3",
+          "./sounds/buy.mp3"
+          // ... остальные ресурсы
+        ];
+
+        let loadedCount = 0;
+
+        function updateProgress() {
+          const percent = Math.round((loadedCount / assetsToLoad.length) * 100);
+          document.querySelector('.progress-bar .bar').style.width = `${percent}%`;
+          document.querySelector('.loading-text').textContent = `Загрузка: ${percent}%`;
+        }
+
+        const loadPromises = assetsToLoad.map(asset => {
+          return new Promise((resolve, reject) => {
+              if (asset.endsWith(".css")) {
+                  const link = document.createElement('link');
+                  link.rel = 'stylesheet';
+                  link.href = asset;
+                  link.onload = () => { loadedCount++; updateProgress(); resolve(); };
+                  link.onerror = () => reject(new Error(`Не удалось загрузить CSS: ${asset}`));
+                  document.head.appendChild(link);
+              } else if (asset.endsWith(".js")) {
+                  const script = document.createElement('script');
+                  script.src = asset;
+                  script.onload = () => { loadedCount++; updateProgress(); resolve(); };
+                  script.onerror = () => reject(new Error(`Не удалось загрузить JS: ${asset}`));
+                  document.body.appendChild(script);
+              } else if (asset.endsWith(".mp3")) {
+                  const audio = new Audio();
+                  audio.src = asset;
+                  audio.onloadeddata = () => { loadedCount++; updateProgress(); resolve(); };
+                  audio.onerror = () => reject(new Error(`Не удалось загрузить аудио: ${asset}`));
+              } else {
+                  const img = new Image();
+                  img.src = asset;
+                  img.onload = () => { loadedCount++; updateProgress(); resolve(); };
+                  img.onerror = () => reject(new Error(`Не удалось загрузить изображение: ${asset}`));
+              }
+          });
+      });
+
+      Promise.all(loadPromises)
+          .then(() => {
+              setTimeout(() => {
+                  window.location.href = "./license.html";
+              }, 1000);
+          })
+          .catch(error => {
+              console.error(error);
+              alert('Ошибка при загрузке ресурсов. Попробуйте обновить страницу.');
+          });
+    </script>
+</body>
+</html>

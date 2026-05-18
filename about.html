@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О игре - Пятёрочка Кликер</title>
+    <!-- Подключение пиксельного шрифта ТОЛЬКО для заголовков -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+    /* Подключаем локальный пиксельный шрифт */
+@font-face {
+    font-family: 'Press Start 2P'; /* Имя шрифта */
+    src: url('./fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* Далее ваш остальной CSS-код */
+body {
+    font-family: 'Press Start 2P', cursive; /* Применяем шрифт */
+    ...
+}
+        /* === БАЗОВЫЕ НАСТРОЙКИ И СБРОС СТИЛЕЙ === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            font-size: 62.5%; /* 1rem = 10px */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            /* Используем стандартный шрифт для лучшей читаемости */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #111;
+            color: #00ff99; /* Яркий неоновый зелёный для текста */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 4rem 2rem 2rem 2rem;
+            overflow-x: hidden;
+        }
+
+        /* === НОВАЯ АНИМАЦИЯ ФОНА (Спокойная и атмосферная) === */
+        .glitch-bg {
+            position: fixed;
+            inset: 0;
+            background: url('./images/Logo1.png') no-repeat center/cover;
+            z-index: -1;
+            opacity: 0.15; /* Логотип на фоне становится очень прозрачным */
+            
+            /* Очень медленное и плавное "дыхание" (пульсация свечения) */
+            animation: breathe 15s ease-in-out infinite;
+            
+            /* Добавим легкое размытие для атмосферы */
+            filter: blur(2px);
+        }
+
+        /* Анимация мягкого свечения (пульсация) */
+        @keyframes breathe {
+            0%, 100% {
+                opacity: 0.15;
+                filter: blur(2px);
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(0, 255, 153, 0.2);
+            }
+            50% {
+                opacity: 0.25;
+                filter: blur(3px);
+                transform: scale(1.01);
+                box-shadow: 0 0 60px rgba(0, 255, 153, 0.4);
+            }
+        }
+
+        /* === ОСНОВНОЙ КОНТЕЙНЕР === */
+        .content-wrapper {
+            max-width: 800px;
+            width: 90%;
+             text-align: center;
+             position: relative;
+             z-index: 1; /* Текст поверх фона */
+             line-height: 1.8; /* Улучшаем читаемость строк */
+             background-color: rgba(17, 17, 17, 0.8); /* Полупрозрачный фон для блока текста */
+             border-radius: 12px; /* Скругленные углы для красоты */
+             padding: 2.5rem; /* Отступы внутри блока текста */
+             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Тень для отделения от фона */
+        }
+
+        /* === ЗАГОЛОВКИ (Используем пиксельный шрифт) === */
+        h1, h2 {
+             font-family: 'Press Start 2P', cursive !important;
+             color: #ffd700; /* Заголовки оставляем золотыми для акцента */
+             text-align: center;
+             margin-bottom: 2rem;
+             position: relative;
+             cursor: default;
+        }
+
+        h1 {
+             font-size: 3.6rem; /* ~36px */
+             margin-top: 4rem; /* Отступ от верха, чтобы не перекрывать фон */
+        }
+
+        h2 {
+             font-size: 2.8rem; /* ~28px */
+             margin-top: 3.5rem;
+             margin-bottom: 1.5rem;
+             border-bottom: 2px solid #ffd700; /* Подчеркивание */
+             padding-bottom: 0.5rem;
+        }
+
+        /* === ТЕКСТ (Читаемый шрифт и цвет) === */
+        p, li {
+             font-size: 1.6rem; /* ~16px */
+             line-height: 1.8; /* Межстрочный интервал для комфорта */
+             margin-bottom: 1.5rem;
+             letter-spacing: normal; /* Нормальное расстояние между буквами */
+        }
+
+        /* Стиль для выделения (как в игре) - делаем ещё ярче */
+        .strong {
+         color: #ffff66 !important; /* Ярко-жёлтый для акцентов в тексте */
+         font-weight: bold;
+         text-shadow: 0 0 4px #ffff66; /* Свечение для акцента */
+         }
+
+         /* === СПИСКИ === */
+         ul {
+              padding-left: 1.5rem;
+              list-style-type: disc;
+         }
+
+         li {
+              margin-left: 1.5rem;
+         }
+
+         /* === ДЕКОРАЦИИ === */
+         hr {
+              border: none;
+              height: 1px;
+              width: 60%;
+              background-color: linear-gradient(to right, transparent, #ffd700, transparent);
+              margin: 4rem auto;
+         }
+
+         /* === КНОПКА ВОЗВРАТА (Стиль как в игре) === */
+         .back-button {
+              display: inline-block;
+              margin-top: 4rem;
+              
+              padding: .8rem 2.5rem;
+              
+              font-family: 'Press Start 2P' !important;
+              font-size: .9rem !important;
+              
+              background-color:#dc3545 !important; /* Красный фон кнопки сброса из игры */
+              color:#fff !important; /* Белый текст из игры */
+              
+              border-radius:.8rem !important;
+              
+              text-decoration:none !important;
+              transition:
+                  background-color .3s ease,
+                  transform .2s ease,
+                  box-shadow .2s ease,
+                  color .3s ease,
+                  border-color .3s ease,
+                  padding .3s ease,
+                  filter .3s ease;
+                  box-shadow: 0px 4px #ffd700; /* Свечение по умолчанию */
+         }
+
+         .back-button:focus, .back-button:focus-visible { outline:none; }
+
+         .back-button:focus-visible {
+              box-shadow:
+                  inset -4px -4px rgba(255,255,255,.7),
+                  inset   4px   4px rgba(   0,   0,     .7);
+         }
+
+         .back-button.hover { background-color:#c82333 !important; } 
+         
+         .back-button.pressed { transform:scale(.98); } 
+         
+         @media (max-width: 768px) {
+              html { font-size: 56.25%; } 
+              
+              body { padding-top: calc(4rem + (4vw)); } 
+              
+              h1 { font-size: calc(3.6rem - (1vw)); }
+              h2 { font-size: calc(2.8rem - (.8vw)); }
+              
+              p, li { font-size: calc(1.6rem - (.4vw)); }
+              
+              hr { width: calc(60% + (15vw)); }
+              
+              .content-wrapper { padding: 1.5rem; } /* Меньше отступы на мобилках */
+              
+              .back-button { padding:.6rem calc(1.5rem + (1vw)); font-size:.8rem !important; }
+         }
+    </style>
+</head>
+<body>
+
+    <!-- АНИМИРОВАННЫЙ ФОН С ЛОГОТИПОМ -->
+    <div class="glitch-bg"></div>
+
+    <!-- ОСНОВНОЙ КОНТЕЙНЕР СОДЕРЖИМОГО -->
+    <div class="content-wrapper">
+        
+        <h1>О игре «Пятёрочка Кликер»</h1>
+
+        <p>Добро пожаловать в мир кликов! В этой игре тебе предстоит стать настоящим мастером клика, зарабатывая монеты и улучшая свою силу. Погрузись в атмосферу ретро-магазина и докажи, что ты можешь стать лучшим.</p>
+
+        <h2>Как играть?</h2>
+
+        <p>Правила просты, но затягивают с первых секунд:</p>
+
+        <ul>
+           <li>Кликай по логотипу игры, чтобы зарабатывать монеты.</li>
+           <li>Трать заработанные монеты в <span class="strong">Магазине</span>, покупая товары.</li>
+           <li>Каждая покупка увеличивает твою силу клика, позволяя зарабатывать быстрее.</li>
+           <li>Не забывай сохранять прогресс, он сохраняется автоматически в браузере!</li>
+       </ul>
+
+       <h2>Управление</h2>
+
+       <p>В игре используется только мышь (или тач на мобильных устройствах):</p>
+
+       <ul>
+           <li><span class="strong">ЛКМ</span> (Левая кнопка мыши) — клик по логотипу для заработка.</li>
+           <li>Кнопки в магазине — покупка товаров.</li>
+           <li>Кнопка «Сбросить прогресс» — начать игру заново.</li>
+       </ul>
+
+       <hr>
+
+       <!-- КНОПКА ВОЗВРАТА НА ГЛАВНУЮ СТРАНИЦУ -->
+       <a href="game.html" class="back-button">← Вернуться в игру</a>
+       
+    </div> <!-- /content-wrapper -->
+</body>
+</html>
